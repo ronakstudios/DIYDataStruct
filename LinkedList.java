@@ -7,7 +7,7 @@ import java.util.ListIterator;
 public class LinkedList<T>{
 	
 	public static void main(String[]args) {
-		Node<Integer> front = new Node<Integer>(new Node<Integer>(3),new Node<Integer>(4));
+		Node<Integer> front = new Node<Integer>(3,4,5,34,5);
 		front.addAfter(2, 1);
 		front.addAfter(24, 1);
 		front.append(new Node(21));
@@ -36,14 +36,31 @@ public class LinkedList<T>{
 			this.next = next;
 		}
 		
+		public Node(T...data) {
+			this.data = data[0];
+			if(data.length!=1) {
+			this.next = new Node<T>(data[1]);
+			if(data.length>2) {
+			Node<T> nextNode = next;
+			for(int i = 2; i<data.length;i++) {
+				nextNode.next=new Node<T>(data[i]);
+				nextNode=nextNode.next;
+			}
+			}
+			}
+		}
+		
 		public Node(Node<T>...nodes){
 			this.data = nodes[0].data;
 			if(nodes.length!=1) {
 			this.next = nodes[1];
 			if(nodes.length>2) {
-			Node<T> nextNode = next.next.next;
+			Node<T> nextNode = next;
 			for(int i = 2; i<nodes.length;i++) {
-				nextNode=nodes[i];
+				//can't do nextNode = nodes[i] and then
+				//nextNode = nextNode.next because that 
+				//overwrites with null!
+				nextNode.next=nodes[i];
 				nextNode=nextNode.next;
 			}
 			}
